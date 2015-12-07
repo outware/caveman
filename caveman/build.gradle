@@ -1,0 +1,128 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+ext {
+    bintrayRepo = 'maven'
+    bintrayName = 'caveman'
+
+    publishedGroupId = 'au.com.outware'
+    libraryName = 'caveman'
+    artifact = 'caveman'
+
+    libraryDescription = 'Caveman is a real-time environment manager for Android applications.\n' +
+            '\n' +
+            'This serves a similar purpose to setting build variables for different variants (with ' +
+            'support for booleans, numbers and strings), however the benefit of this approach is ' +
+            'that you can use one application for all environments instead of one application per ' +
+            'build variant. Another benefit is that values can be updated without requiring a new ' +
+            'build, which is particularly useful as this means values can be updated by testers, ' +
+            'product managers etc.'
+
+    siteUrl = 'https://github.com/outware/caveman/'
+    gitUrl = 'https://github.com/outware/caveman.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'outware-mobile'
+    developerName = 'Outware Mobile'
+    developerEmail = 'technology@outware.com.au'
+
+    licenseName = 'MIT'
+    licenseUrl = 'https://opensource.org/licenses/MIT'
+    allLicenses = ["MIT"]
+}
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+configurations {
+    javadocDeps
+}
+
+// custom tasks for creating source/javadoc jars
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.javadocDeps
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:appcompat-v7:23.1.0',
+            'com.android.support:support-annotations:23.1.0',
+            'com.google.code.gson:gson:2.4'
+
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
+    testCompile('junit:junit:4.12') {
+        exclude module: 'hamcrest-core'
+    }
+    testCompile('org.robolectric:robolectric:3.0') {
+        exclude module: 'junit-dep'
+        exclude module: 'mockito-core'
+    }
+    testCompile 'org.mockito:mockito-all:1.10.19'
+    javadocDeps 'com.android.support:support-annotations:23.1.1',
+            'com.google.code.gson:gson:2.4'
+}
+
+group = publishedGroupId
+version = libraryVersion
+
+// Bintray
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = bintrayRepo
+        name = bintrayName
+        desc = libraryDescription
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = allLicenses
+        publish = true
+        publicDownloadNumbers = true
+        version {
+            desc = libraryDescription
+            gpg {
+                sign = false //Determines whether to GPG sign the files. The default is false
+            }
+        }
+    }
+}
