@@ -28,7 +28,6 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         tools:text="test" />
-    tools:text="test"/>
 
     <TextView
         android:id="@+id/timeout"
