@@ -1,0 +1,3 @@
+[submodule "caveman-app"]
+	path = caveman-app
+	url = git@github.com:outware/caveman-app.git
