@@ -1,10 +1,9 @@
 Caveman
 =======
 
-The purpose of this application is to allow you to create and modify configuration environments for android applications at run time. 
+The purpose of Caveman is to allow you to create and modify configuration environments for Android applications at run time. 
 
-This serves a similar purpose to setting build variables for different variants, however the benefit of this approach is that you can use one application for all environments instead of one application per build variant. 
-Another benefit is that values can be updated without requiring a new build, which is particularly useful as this means values can be updated by testers, product managers etc.
+This serves a similar purpose to setting build variables for different variants, however the benefit of Caveman is that configuration environments can be added, removed or updated live instead of requiring separate builds.
 
 This repository contains both the library and the application to be used alongside it, as well as a sample application that uses caveman. For details on how to use the caveman app, see the README in caveman-app.
 	

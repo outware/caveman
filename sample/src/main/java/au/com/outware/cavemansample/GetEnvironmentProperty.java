@@ -10,7 +10,7 @@ import au.com.outware.caveman.domain.repository.EnvironmentRepository;
  * Copyright © 2015 Outware Mobile. All rights reserved.
  */
 public class GetEnvironmentProperty {
-    private static final String PROVIDER_AUTHORITY = "au.com.outware.companion.contentprovider";
+    private static final String PROVIDER_AUTHORITY = "au.com.outware.caveman.contentprovider";
     private static final String BASE_URL_KEY = "BaseURL";
     private static final String LOGS_ENABLED_KEY = "LogEnabled";
     private static final String TIMEOUT_KEY = "Timeout";

@@ -40,13 +40,22 @@ public final class EnvironmentContentProviderRepository implements EnvironmentRe
      * the key was not found, the property is empty or the {@link Environment} has not been loaded.
      */
     @NonNull
-    public <T> T getProperty(@NonNull final String key, T defaultValue) {
+    public <T> T getProperty(@NonNull final String key, @NonNull T defaultValue) {
         // check for empty key and environment is null
         if (environment == null) {
             return defaultValue;
         }
 
         return environment.getProperty(key, defaultValue);
+    }
+
+    @Nullable
+    public <T> T getProperty(@NonNull final String key) {
+        if (environment == null) {
+            return null;
+        }
+
+        return environment.getProperty(key, (T)null);
     }
 
     private Uri getContentUri(String providerAuthority) {
@@ -74,6 +83,7 @@ public final class EnvironmentContentProviderRepository implements EnvironmentRe
         if (companionInfo == null) {
             return null;
         }
+
         // Make sure Caveman is signed with the same key as we are
         if (packageManager.checkSignatures(context.getPackageName(),
                 companionInfo.packageName) != PackageManager.SIGNATURE_MATCH) {
