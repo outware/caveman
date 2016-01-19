@@ -5,7 +5,7 @@ The purpose of Caveman is to allow you to create and modify configuration enviro
 
 This serves a similar purpose to setting build variables for different variants, however the benefit of Caveman is that configuration environments can be added, removed or updated live instead of requiring separate builds.
 
-This repository contains both the library and the application to be used alongside it, as well as a sample application that uses caveman. For details on how to use the caveman app, see the README in caveman-app.
+This repository contains both the library and the application to be used alongside it, as well as a sample application that uses caveman. For details on how to use the caveman app, see [the README in caveman-app](https://github.com/outware/caveman-app).
 	
 License
 -------
