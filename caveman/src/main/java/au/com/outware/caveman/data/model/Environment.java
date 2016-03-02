@@ -45,26 +45,39 @@ public final class Environment {
      * key is not found or the type is not a valid JSON type the given defaultValue will be returned.
      */
     public <T> T getProperty(@NonNull final String key, final T defaultValue) throws RuntimeException {
-        if (TextUtils.isEmpty(key) || properties == null) {
-            return defaultValue;
-        }
+        T value = defaultValue;
 
-        Class clazz = defaultValue.getClass();
-        if(Number.class.isAssignableFrom(clazz) || String.class == clazz || Boolean.class == clazz) {
-            if (properties.containsKey(key)) {
-                Object property = properties.get(key);
+        if (!TextUtils.isEmpty(key) && properties != null) {
+            Object property = properties.get(key);
 
-                if (property == null) {
-                    return defaultValue;
+            if (property == null) {
+                value = defaultValue;
+            } else {
+                Class clazz = defaultValue.getClass();
+                if(Number.class.isAssignableFrom(clazz)) {
+                    Number numberProperty = (Number) property;
+                    if(clazz == Integer.class) {
+                        value = (T) Integer.valueOf(numberProperty.intValue());
+                    } else if(clazz ==  Float.class) {
+                        value = (T) Float.valueOf(numberProperty.floatValue());
+                    } else if(clazz == Double.class) {
+                        value = (T) Double.valueOf(numberProperty.doubleValue());
+                    } else if (clazz == Long.class) {
+                        value = (T) Long.valueOf(numberProperty.longValue());
+                    } else if (clazz == Short.class) {
+                        value = (T) Short.valueOf(numberProperty.shortValue());
+                    } else if (clazz == Byte.class) {
+                        value = (T) Byte.valueOf(numberProperty.byteValue());
+                    }
+                } else if(String.class == clazz || Boolean.class == clazz) {
+                    value = (T) property;
+                } else {
+                    throw new RuntimeException("Value must be of type Number, String or Boolean");
                 }
-
-                return (T) property;
             }
-        } else {
-            throw new RuntimeException("Value must be of type Number, String or Boolean");
         }
 
-        return defaultValue;
+        return value;
     }
 
     public <T> void setProperty(@NonNull final String key, T value) {
