@@ -1,6 +1,7 @@
 package au.com.outware.cavemansample;
 
 import android.content.Context;
+import android.support.annotation.VisibleForTesting;
 
 import au.com.outware.caveman.data.repository.EnvironmentContentProviderRepository;
 import au.com.outware.caveman.domain.repository.EnvironmentRepository;
@@ -12,13 +13,14 @@ import au.com.outware.caveman.domain.repository.EnvironmentRepository;
 public class GetEnvironmentProperty {
     private static final String PROVIDER_AUTHORITY = "au.com.outware.caveman.contentprovider";
     private static final String BASE_URL_KEY = "BaseURL";
-    private static final String LOGS_ENABLED_KEY = "LogEnabled";
+    private static final String LOGS_ENABLED_KEY = "LoggingEnabled";
     private static final String TIMEOUT_KEY = "Timeout";
 
     private static final String DEFAULT_BASE_URL = "http://base.url";
     private static final boolean DEFAULT_LOGS_ENABLED = false;
     private static final int DEFAULT_TIMEOUT = 2000;
 
+    @VisibleForTesting
     EnvironmentRepository environmentRepository;
 
     public GetEnvironmentProperty(Context context) {
